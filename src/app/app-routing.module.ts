@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: 'todos',
-    loadChildren: () => import('./feature/todo-list/todo-list-routing.module').then(module => module.TodoListRoutingModule)
+    loadChildren: () => import('./feature/todo-list/todo-list.module').then(module => module.TodoListModule)
   },
   {
     path: '**', // any path leads to rome

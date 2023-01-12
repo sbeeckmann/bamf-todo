@@ -8,7 +8,6 @@ import { Identifiable } from "./identifiable";
 export abstract class AbstractIdentifiableStorage<T extends Identifiable> {
   private data: Map<number, T> = new Map<number, T>();
   private dataListChangeSubject: Subject<T[]> = new BehaviorSubject<T[]>([]);
-  private entryChangeSubject: Subject<DataChange<T>> = new Subject<DataChange<T>>();
   private initSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   /**
@@ -44,12 +43,8 @@ export abstract class AbstractIdentifiableStorage<T extends Identifiable> {
    * @param data - the data to add
    */
   public add (data: T): void {
-    const entry = this.find(data.id);
-    const changeType = entry == null ? ChangeType.ADDED : ChangeType.UPDATED;
     this.data.set(data.id, data);
-
     this.informListChangeListener();
-    this.informEntryChangedListener(data, changeType);
   }
 
   /**
@@ -70,7 +65,7 @@ export abstract class AbstractIdentifiableStorage<T extends Identifiable> {
 
   /**
    * Remove the element.
-   * If an element with the id exists, it will be removed and the delete change is triggered
+   * If an element with the id exists, it will be removed
    * @param id the id of the element to remove
    */
   public remove (id: number): void {
@@ -78,7 +73,6 @@ export abstract class AbstractIdentifiableStorage<T extends Identifiable> {
     if (entry != null) {
       this.data.delete(id);
       this.informListChangeListener()
-      this.informEntryChangedListener(entry, ChangeType.DELETED);
     }
   }
 
@@ -96,15 +90,9 @@ export abstract class AbstractIdentifiableStorage<T extends Identifiable> {
     return this.dataListChangeSubject.asObservable();
   }
 
-  /**
-   * Observable to subscribe in case you are interested if a specific element was changed
-   */
-  public entryChanged$ (): Observable<DataChange<T>> {
-    return this.entryChangeSubject.asObservable();
-  }
 
   /**
-   * Reset the storage
+   * Reset the storage to the initial state
    */
   public reset (): void {
     this.data.clear()
@@ -112,23 +100,19 @@ export abstract class AbstractIdentifiableStorage<T extends Identifiable> {
     this.initSubject.next(false)
   }
 
+  /**
+   * Replace the current internal data with the new data
+   * @param dataList - the new data to add
+   */
+  public replace(dataList: T[]): void {
+    this.data.clear()
+    for (let data of dataList) {
+      this.data.set(data.id, data);
+    }
+    this.dataListChangeSubject.next(dataList)
+  }
+
   private informListChangeListener (): void {
     this.dataListChangeSubject.next(Object.assign([], Array.from(this.data.values())));
   }
-
-  private informEntryChangedListener (entry: T, changeType: ChangeType): void {
-    this.entryChangeSubject.next({changeType, entry});
-  }
-
-}
-
-export interface DataChange<T> {
-  entry?: T;
-  changeType: ChangeType;
-}
-
-export enum ChangeType {
-  ADDED,
-  DELETED,
-  UPDATED
 }

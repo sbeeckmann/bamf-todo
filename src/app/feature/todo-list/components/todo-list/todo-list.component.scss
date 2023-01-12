@@ -1,0 +1,38 @@
+.todo-wrapper {
+  display: flex;
+  justify-content: center;
+  background-color: #cccccc;
+  height: 100%;
+  overflow: hidden
+}
+
+.todos {
+  width: 500px;
+  background: white;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.todo-list {
+  max-width: 100%;
+  border: solid 1px #ccc;
+  min-height: 60px;
+  display: block;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+  padding-right: 5px;
+}
+
+.headline {
+  padding-top: 20px;
+  font-size: 28px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.call-to-action {
+  text-align: end;
+  padding: 5px 10px 5px 0;
+}

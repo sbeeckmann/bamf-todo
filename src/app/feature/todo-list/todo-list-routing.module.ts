@@ -1,7 +1,7 @@
 import { RouterModule, Routes } from "@angular/router";
 import { NgModule } from "@angular/core";
-import { TodoResolver } from "./data/todo.resolver";
 import { TodoListComponent } from "./components/todo-list/todo-list.component";
+import {TodoResolver} from "./data/todo.resolver";
 
 const routes: Routes = [
   {

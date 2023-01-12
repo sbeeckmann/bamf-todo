@@ -1,1 +1,23 @@
-<p>todo-list-element works!</p>
+<div [formGroup]="todoForm">
+  <div class="todo-box" [ngClass]="{'done': done}">
+    <div class="content-area">
+      <div class="input-area">
+        <mat-form-field appearance="fill">
+          <mat-label>Todo name</mat-label>
+          <input matInput placeholder="Name of the Todo" formControlName="name" [disabled]="done">
+        </mat-form-field>
+      </div>
+      <div class="delete">
+        <button (click)="onDelete()" mat-icon-button color="primary" aria-label="Delete Button, Click">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="actions">
+      <button (click)="onToggleStatus()"  mat-raised-button aria-label="Mark as Done Button, click" color="primary" *ngIf="!done">Done</button>
+      <button (click)="onToggleStatus()"  mat-raised-button aria-label="Mark as not done Button, click" color="primary" *ngIf="done">Not Done</button>
+      <button (click)="onSave()" mat-raised-button aria-label="Save Button, click" color="primary" [disabled]="done">Save
+      </button>
+    </div>
+  </div>
+</div>

@@ -8,6 +8,6 @@ import { Todo } from "./todo";
 @Injectable({
   providedIn: 'root'
 })
-export class TodoStorageService extends AbstractIdentifiableStorage<Todo> {
-
+export class TodoStorageService
+  extends AbstractIdentifiableStorage<Todo> {
 }

@@ -1,0 +1,19 @@
+<div class="todo-wrapper">
+<div class="todos">
+  <div class="headline">
+    Your Todos
+  </div>
+
+  <div class="call-to-action">
+    <button color="accent" mat-raised-button (click)="onCreateTodo()">
+      <mat-icon>add</mat-icon>
+      Add Todo
+    </button>
+  </div>
+  <ng-scrollbar class="flex-max">
+  <div cdkDropList class="todo-list" (cdkDropListDropped)="drop($event)">
+    <app-todo-list-element *ngFor="let todo of todos$ | async" cdkDrag [todo]="todo"></app-todo-list-element>
+  </div>
+  </ng-scrollbar>
+</div>
+</div>
